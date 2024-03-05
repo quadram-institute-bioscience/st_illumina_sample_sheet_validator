@@ -1,5 +1,7 @@
 # SampleSheet Validator
 
+[![Pytest](https://github.com/quadram-institute-bioscience/st_illumina_sample_sheet_validator/actions/workflows/python-app.yml/badge.svg)](https://github.com/quadram-institute-bioscience/st_illumina_sample_sheet_validator/actions/workflows/python-app.yml)
+
 ## Overview
 This little streamlit app provides a simple interface to validate the sample sheet using for demultiplexing samples from the Nextseq.
 
