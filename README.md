@@ -15,4 +15,4 @@ This little streamlit app provides a simple interface to validate the sample she
 - For now, only nextera_xt_v2 adapters are supported.
 
 ## Installation & Usage
-The app is deployed at: https://
+The app is deployed at: [https://illumina-ss-validator.streamlit.app](https://illumina-ss-validator.streamlit.app)
