@@ -37,13 +37,13 @@ def reverse_complement(sequence: str) -> str:
     return sequence.translate(str.maketrans("ATCGNatcgn", "TAGCNtagcn"))[::-1]
 
 
-def remove_special_chars(sample_id: str, replace_char: str = "-") -> str:
+def remove_special_chars(text: str, replace_char: str = "-") -> str:
     """
     Remove special characters from a sample ID.
-    :param sample_id: The sample ID to remove special characters from.
+    :param text: The sample ID to remove special characters from.
     :return: The sample ID with special characters removed.
     """
-    return re.sub(r"[^a-zA-Z0-9\-|\_]", replace_char, sample_id)
+    return re.sub(r"[^a-zA-Z0-9\-|\_]", replace_char, text)
 
 
 def validate_sample_sheet(
@@ -81,7 +81,7 @@ def validate_sample_sheet(
                     i5_index_id,
                     index2,
                     sample_project,
-                ) = row[:7]
+                ) = [x.strip() for x in row[:7]]
                 # sample id
                 sample_id = remove_special_chars(sample_id)
                 # description
