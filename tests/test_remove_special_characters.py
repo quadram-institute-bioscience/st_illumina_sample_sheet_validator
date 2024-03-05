@@ -9,7 +9,7 @@ class TestRemoveSpecialChars:
         expected_result = "abc123"
         replace_char = ""
         # Act
-        result = remove_special_chars(sample_id, replace_char)
+        result = remove_special_chars(sample_id, replace_char, False)
 
         # Assert
         assert result == expected_result
@@ -22,7 +22,7 @@ class TestRemoveSpecialChars:
         expected_result = "abc---123"
 
         # Act
-        result = remove_special_chars(sample_id, replace_char)
+        result = remove_special_chars(sample_id, replace_char, False)
 
         # Assert
         assert result == expected_result
@@ -30,11 +30,11 @@ class TestRemoveSpecialChars:
     def test_remove_unicode_chars(self):
         # Arrange
         sample_id = "abc!@*êấ123"
-        replace_char = ""
-        expected_result = "abc123"
+        replace_char = "-"
+        expected_result = "abc-123"
 
         # Act
-        result = remove_special_chars(sample_id, replace_char)
+        result = remove_special_chars(sample_id, replace_char, True)
 
         # Assert
         assert result == expected_result

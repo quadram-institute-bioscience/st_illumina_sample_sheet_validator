@@ -1,8 +1,11 @@
 import csv
 import re
+import os
 from typing import Dict, List
 
-ADAPTER_LIST = {"nextera_xt_v2": "./assets/nextera_xt_v2.csv"}
+cwd = os.path.dirname(os.path.abspath(__file__))
+
+ADAPTER_LIST = {"nextera_xt_v2": f"{cwd}/assets/nextera_xt_v2.csv"}
 
 
 def get_adapter(adapter_kit: str, i5_prefix: str = "S5") -> Dict:
@@ -17,6 +20,8 @@ def get_adapter(adapter_kit: str, i5_prefix: str = "S5") -> Dict:
     adapters["i7"] = {}
     adapters["i5"] = {}
     adapter_file = ADAPTER_LIST[adapter_kit]
+    if not os.path.exists(adapter_file):
+        raise Exception(f"Adapter file not found: {adapter_file}")
     with open(adapter_file, "r") as af:
         for line in af:
             if "name,sequence" not in line:
@@ -37,13 +42,18 @@ def reverse_complement(sequence: str) -> str:
     return sequence.translate(str.maketrans("ATCGNatcgn", "TAGCNtagcn"))[::-1]
 
 
-def remove_special_chars(text: str, replace_char: str = "-") -> str:
+def remove_special_chars(
+    text: str, replace_char: str = "-", collapse_repeat: bool = True
+) -> str:
     """
     Remove special characters from a sample ID.
     :param text: The sample ID to remove special characters from.
     :return: The sample ID with special characters removed.
     """
-    return re.sub(r"[^a-zA-Z0-9\-|\_]", replace_char, text)
+    rs = re.sub(r"[^a-zA-Z0-9\-|\_]", replace_char, text)
+    if collapse_repeat:
+        rs = re.sub(f"{replace_char}+", replace_char, rs)
+    return rs
 
 
 def validate_sample_sheet(
