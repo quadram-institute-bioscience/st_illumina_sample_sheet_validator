@@ -1,7 +1,6 @@
 import streamlit as st
 import io
 import tempfile
-import csv
 from utils import validate_sample_sheet, ADAPTER_LIST
 
 
@@ -33,10 +32,10 @@ def app():
         tmp_file.flush()
         try:
             rs, duplicated_index = validate_sample_sheet(tmp_file.name)
-            st.dataframe(rs)
+            st.dataframe(rs, width=800, height=800)
             buffer = io.StringIO()
-            writer = csv.writer(buffer)
-            writer.writerow(rs)
+            for row in rs:
+                buffer.write(f"{row}\n")
             csv_data = buffer.getvalue()
             output_name = uploaded_file.name.split(".")[0]
             st.download_button(
