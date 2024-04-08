@@ -30,8 +30,10 @@ def app():
     if uploaded_file is not None:
         tmp_file = tempfile.NamedTemporaryFile(delete=True)
         tmp_file.write(uploaded_file.getvalue())
+        tmp_file.flush()
         try:
             rs, duplicated_index = validate_sample_sheet(tmp_file.name)
+            st.dataframe(rs)
             buffer = io.StringIO()
             writer = csv.writer(buffer)
             writer.writerow(rs)

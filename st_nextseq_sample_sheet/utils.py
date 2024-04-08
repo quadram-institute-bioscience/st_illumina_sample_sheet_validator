@@ -1,6 +1,7 @@
 import csv
 import re
 import os
+import sys
 from typing import Dict, List
 
 cwd = os.path.dirname(os.path.abspath(__file__))
@@ -65,6 +66,10 @@ def validate_sample_sheet(
     :return: A list of dictionaries containing sample information.
     """
     adapters = get_adapter(adapter_kit)
+
+    if not os.path.exists(sample_sheet_file):
+        sys.exit("Sample sheet file not found")
+
     with open(sample_sheet_file, "r") as sf:
         expected_header = [
             "Sample_ID",
@@ -76,6 +81,10 @@ def validate_sample_sheet(
             "Sample_Project",
         ]
         reader = csv.reader(sf)
+
+        if reader is None:
+            sys.exit("Empty csv file")
+
         found_header = False
         samples = []
         _run_metadata = []
@@ -142,6 +151,10 @@ def validate_sample_sheet(
                     )
                 found_header = True
     _run_metadata.extend(samples)
+
+    if len(_run_metadata) == 0:
+        raise ValueError("Output is empty!")
+
     duplicated_index = {
         k: v for k, v in duplicated_index.items() if len(v.split(",")) > 1
     }
